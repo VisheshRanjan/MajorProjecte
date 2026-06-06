@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Listing!</title>
-</head>
+<% layout("/layouts/boilerplate"); %>
 <body >   
      <h2>All List is Here!!</h2>
-     <form action="/listings/new" method="get">
+     <!-- <form action="/listings/new" method="get">
         <button>Create New?</button>
-    </form>
+    </form> -->
 
     <% for(list of allList) { %>
     <form >
-        <p><a href="/listings/<%=list._id%>"><%=list.title%></a></p>
+        <ul>
+                    <li> <p><a href="/listings/<%=list._id%>"><%=list.title%></a></p></li>  
+        </ul>
     </form>
-    <form method="get" action="/listings/<%=list._id %>/edit">
+    <!-- <form method="get" action="/listings/<%=list._id %>/edit">
                 <button type="submit">Edit ?</button>
 
-    </form>
+    </form> -->
     
       <%  } %>
 
 </body>
-</html>

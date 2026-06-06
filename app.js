@@ -9,6 +9,8 @@ app.use(express.urlencoded({ extended: true }));
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 const ejsMate = require("ejs-mate");
+app.use(express.static(path.join(__dirname, "public")));
+
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
