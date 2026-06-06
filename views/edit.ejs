@@ -9,19 +9,19 @@
     <h2>ENter the New Details Here -></h2>    <br>
 <form action="/listings/<%=user._id%>/edit?_method=PUT" method="post">
     
-    <input type="text" name="edit[name]" placeholder="Enter Your New Title ...">
+    <input type="text" name="edit[name]" value="<%=user.title%>"   placeholder="Enter Your New Title ...">
     <br>    <br>
 
 <textarea  name="edit[description]" placeholder="Enter Your New Description ..."></textarea>
     <br>      <br>  
-<input type="number"  name="edit[price]" placeholder="Enter Your New Price ...">
+<input type="number" value="<%=user.price%>"  name="edit[price]" placeholder="Enter Your New Price ...">
     <br>
             <br>
-<input type="text"  name="edit[location]" placeholder="Enter Your New Location ...">
+<input type="text" value="<%=user.location%>"  name="edit[location]" placeholder="Enter Your New Location ...">
         <br>
     <br>
 
-        <input type="text"  name="edit[country]" placeholder="Enter Your New Country ...">
+        <input type="text"  value="<%=user.country%>" name="edit[country]" placeholder="Enter Your New Country ...">
             <br>
     <br>
 

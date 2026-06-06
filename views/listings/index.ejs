@@ -7,15 +7,20 @@
 </head>
 <body >   
      <h2>All List is Here!!</h2>
+     <form action="/listings/new" method="get">
+        <button>Create New?</button>
+    </form>
 
     <% for(list of allList) { %>
     <form >
-        <p><a href="/listings/<%= list._id %>"><%=list.title%></a></p>
+        <p><a href="/listings/<%=list._id%>"><%=list.title%></a></p>
     </form>
     <form method="get" action="/listings/<%=list._id %>/edit">
                 <button type="submit">Edit ?</button>
 
     </form>
+    
       <%  } %>
+
 </body>
 </html>

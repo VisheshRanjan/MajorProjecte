@@ -8,6 +8,10 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
+const ejsMate = require("ejs-mate");
+
+app.engine("ejs", ejsMate);
+app.set("view engine", "ejs");
 
 
 main().then((res)=>{
@@ -95,13 +99,21 @@ app.put("/listings/:_id/edit",async(req,res)=>{
     // res.send("Keep building!");
 });
 
-app.get("/listings/:id",async (req,res)=>{
-    let {id} = req.params;
-    let listInfo = await Listing.findById(id);
-    console.log(listInfo);
-    res.render("../views/listings/show.ejs",listInfo);
-    // res.send(listInfo);
+app.post("/listings/:_id/delete",async (req,res)=>{
+    let{_id} =req.params;
+    let delUser = await Listing.findByIdAndDelete(_id);
+    console.log(delUser);
+
     res.redirect("/listings");
+});
+
+app.get("/listings/:_id",async (req,res)=>{
+    let {_id} = req.params;
+    let allList = await Listing.findById(_id);
+    console.log(allList);
+    res.render("../views/listings/show.ejs",{allList});
+    // res.send(listInfo);
+    // res.redirect("/listings");
 
 });
 

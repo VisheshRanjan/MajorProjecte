@@ -6,10 +6,17 @@
     <title>Here Is the Info</title>
 </head>
 <body>
-    <h2><%=allList.title%></h2>
-    <img src="<%=allList.image.url%> " width="400">
-    <p> &#8377;<%=allList.price.toLocaleString("en-IN")%></p>
-    <p><%=allList.location%></p>
-    <p><%=allList.country%></p>
+    <h2><%= allList?.title %></h2>
+
+    <% if (allList?.image?.url) { %>
+        <img src="<%= allList.image.url %>" width="400">
+    <% } %>
+
+    <p><%= allList?.location %></p>
+    <p><%= allList?.country %></p>
+
+    <form method="post" action="/listings/<%=allList._id%>/delete">
+        <button>Delete</button>
+    </form>
 </body>
 </html>
