@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit!</title>
+</head>
+<body>
+    <h2>ENter the New Details Here -></h2>    <br>
+<form action="/listings/<%=user._id%>/edit?_method=PUT" method="post">
+    
+    <input type="text" name="edit[name]" placeholder="Enter Your New Title ...">
+    <br>    <br>
+
+<textarea  name="edit[description]" placeholder="Enter Your New Description ..."></textarea>
+    <br>      <br>  
+<input type="number"  name="edit[price]" placeholder="Enter Your New Price ...">
+    <br>
+            <br>
+<input type="text"  name="edit[location]" placeholder="Enter Your New Location ...">
+        <br>
+    <br>
+
+        <input type="text"  name="edit[country]" placeholder="Enter Your New Country ...">
+            <br>
+    <br>
+
+            <button type="submit">Submit</button>
+
+</form>
+    
+</body>
+</html>
