@@ -70,10 +70,10 @@ app.get("/listings/new",(req,res)=>{
 
 app.post("/listings/new",async (req,res)=>{
     let{newTitle,newDescription,newUrl,newPrice,newLocation,newCountry} = req.body;
-   await Listing.insertOne({
+   await Listing.create({
         title:newTitle,
         description:newDescription,
-        url:newUrl,
+        image:{url:newUrl},
         price:newPrice,
         location:newLocation,
         country:newCountry

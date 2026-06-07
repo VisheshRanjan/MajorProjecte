@@ -1,33 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit!</title>
-</head>
+<% layout("/layouts/boilerplate"); %>
+<div class="row mt-3">
+<div class="col-8">
+
 <body>
-    <h2>ENter the New Details Here -></h2>    <br>
+    <h2>Edit Your Listing -></h2>    <br>
 <form action="/listings/<%=user._id%>/edit?_method=PUT" method="post">
     
-    <input type="text" name="edit[name]" value="<%=user.title%>"   placeholder="Enter Your New Title ...">
-    <br>    <br>
+    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input
+                            type="text"
+                            name="eidt[title]"
+                            class="form-control"
+                            placeholder="Enter Your Title"
+                            value="<%=user.title%>"
+                        >
+                    </div>
 
-<textarea  name="edit[description]" placeholder="Enter Your New Description ..."></textarea>
-    <br>      <br>  
-<input type="number" value="<%=user.price%>"  name="edit[price]" placeholder="Enter Your New Price ...">
-    <br>
-            <br>
-<input type="text" value="<%=user.location%>"  name="edit[location]" placeholder="Enter Your New Location ...">
-        <br>
-    <br>
+<div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea
+                            type="text"
+                            name="edit[description]"
+                            class="form-control"
+                            placeholder="Enter Your Title"
+                                                    > <%=user.description%></textarea>
+                    </div>
+<div class="mb-3">
+                        <label class="form-label">URL</label>
+                        <input
+                            type="text"
+                            name="edit[image][url]"
+                            class="form-control"
+                            placeholder="Enter Your URL"
+                                                        value="<%=user.image.url%>"
 
-        <input type="text"  value="<%=user.country%>" name="edit[country]" placeholder="Enter Your New Country ...">
-            <br>
-    <br>
+                        >
+                    </div>
 
-            <button type="submit">Submit</button>
+                    <div class="row">
+
+<div class="mb-3 col-md-4">
+                        <label class="form-label">Price</label>
+                        <input
+                            type="text"
+                            name="edit[price]"
+                            class="form-control"
+                            placeholder="Enter Your Price"
+                                                        value="<%=user.price%>"
+
+                        >
+                    </div>
+<div class="mb-3 col-md-8">
+                        <label class="form-label">Location</label>
+                        <input
+                            type="text"
+                            name="edit[location]"
+                            class="form-control"
+                            placeholder="Enter Your Location"
+                                                        value="<%=user.location%>"
+
+                        >
+                    </div>
+                    </div>
+
+        <div class="mb-3">
+                        <label class="form-label">Country</label>
+                        <input
+                            type="text"
+                            name="edit[country]"
+                            class="form-control"
+                            placeholder="Enter Your Country"
+                                                        value="<%=user.country%>"
+
+                        >
+                    </div>
+
+            <button type="submit" class="btn btn-dark edit-btn">Submit</button>
 
 </form>
     
 </body>
-</html>
+</div>
+
+</div>

@@ -95,3 +95,11 @@ padding: 1rem;
     background-color: black;
     border: none;
 }
+
+.show-img{
+    height: 30vb;
+}
+
+.edit-btn{
+    background-color: red;
+}
