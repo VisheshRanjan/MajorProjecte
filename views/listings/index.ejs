@@ -1,21 +1,23 @@
 <% layout("/layouts/boilerplate"); %>
 <body >   
-     <h2>All List is Here!!</h2>
-     <!-- <form action="/listings/new" method="get">
-        <button>Create New?</button>
-    </form> -->
+        <h2>All List is Here!!</h2>
+   
 
-    <% for(list of allList) { %>
-    <form >
-        <ul>
-                    <li> <p><a href="/listings/<%=list._id%>"><%=list.title%></a></p></li>  
-        </ul>
-    </form>
-    <!-- <form method="get" action="/listings/<%=list._id %>/edit">
-                <button type="submit">Edit ?</button>
+    <div class="row row-cols-lg-3 row-cols-med-2">
+        
+<% for(list of allList) { %>
 
-    </form> -->
-    
-      <%  } %>
+    <div class="card" style="width: 20rem;">
+    <img src="<%=list.image.url%>" class="card-img-top" style="height: 20rem;" alt="...">
+    <div class="card-body">
+    <b><p class="card-text"><%=list.title%></b>
+    <br>
+    <%=list.price.toLocaleString("en-IN")%>
+</p>
+</div>
+</div>
+<%  } %>
+
+
 
 </body>

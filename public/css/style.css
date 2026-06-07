@@ -1,4 +1,6 @@
-body{background-color: pink;}
+body{background-color: "Plus Jakarta Sans", sans-serif;
+}
+
 .navbar{
     height: 5rem;
     background-color: white;
@@ -37,10 +39,43 @@ align-items: space-evenly;
 }
 
 .f-info-socials{
+    display: flex;
+    align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+padding: 1rem;
     width: 100%;
 }
 
 .f-info-links a{
+    
     text-decoration: none;
+
+}
+
+.f-info-links{
+    display: flex;
+    align-items: center;
+
+        justify-content: center;
+
+}
+
+.card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body{
+    padding: 0;
+}
+
+.card-text p{
 
 }
