@@ -42,8 +42,9 @@ align-items: space-evenly;
     display: flex;
     align-items: center;
         justify-content: center;
-        margin-right: 1rem;
-padding: 1rem;
+        gap: 1rem;
+        margin-right: 3rem;
+        padding: 1rem;
     width: 100%;
 }
 
