@@ -10,6 +10,9 @@ const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 const ejsMate = require("ejs-mate");
 app.use(express.static(path.join(__dirname, "public")));
+const wrapAsync = require("./utils/wrapAsync.js");
+const expressError = require("./utils/expressError.js");
+
 
 
 app.engine("ejs", ejsMate);
@@ -68,7 +71,7 @@ app.get("/listings/new",(req,res)=>{
     // console.log("CREATE GET is working !");
 });
 
-app.post("/listings/new",async (req,res)=>{
+app.post("/listings/new", wrapAsync( async (req,res,next)=>{
     let{newTitle,newDescription,newUrl,newPrice,newLocation,newCountry} = req.body;
    await Listing.create({
         title:newTitle,
@@ -82,7 +85,7 @@ app.post("/listings/new",async (req,res)=>{
     res.redirect("/listings");
 
     // res.send("POST is WORKING FOR new LISTING!!!");
-});
+}));
 
 app.get("/listings/:_id/edit",async (req,res)=>{
     let{_id} = req.params;
@@ -117,6 +120,15 @@ app.get("/listings/:_id",async (req,res)=>{
     // res.send(listInfo);
     // res.redirect("/listings");
 
+});
+
+app.use((req,res,next)=>{
+    next(new expressError(404,"Page Not Found"))
+})
+
+app.use((err,req,res,next)=>{
+    let{statusCode=500,message} = err;
+    res.status(statusCode).send(message);
 });
 
 
