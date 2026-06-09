@@ -59,12 +59,12 @@ app.get("/",(req,res)=>{
 
 // })
 
-app.get("/listings",async (req,res)=>{
+app.get("/listings", wrapAsync(async (req,res)=>{
    let allList = await Listing.find({})
     res.render("../views/listings/index.ejs",{allList});
 
     // res.send("GET is working go ahead !");
-});
+}));
 
 app.get("/listings/new",(req,res)=>{
     res.render("newListing.ejs");
@@ -87,14 +87,14 @@ app.post("/listings/new", wrapAsync( async (req,res,next)=>{
     // res.send("POST is WORKING FOR new LISTING!!!");
 }));
 
-app.get("/listings/:_id/edit",async (req,res)=>{
+app.get("/listings/:_id/edit", wrapAsync(async (req,res)=>{
     let{_id} = req.params;
     let user = await Listing.findById(_id);
     res.render("edit.ejs",{user});
     // res.send("GET is WORKING, Go for EJS !!");
-});
+}));
 
-app.put("/listings/:_id/edit",async(req,res)=>{
+app.put("/listings/:_id/edit", wrapAsync(async(req,res)=>{
     let{_id} = req.params;
         const newInfo =req.body.edit;
         console.log(newInfo);
@@ -102,17 +102,17 @@ app.put("/listings/:_id/edit",async(req,res)=>{
     res.redirect("/listings");
 
     // res.send("Keep building!");
-});
+}));
 
-app.post("/listings/:_id/delete",async (req,res)=>{
+app.post("/listings/:_id/delete", wrapAsync(async (req,res)=>{
     let{_id} =req.params;
     let delUser = await Listing.findByIdAndDelete(_id);
     console.log(delUser);
 
     res.redirect("/listings");
-});
+}));
 
-app.get("/listings/:_id",async (req,res)=>{
+app.get("/listings/:_id", wrapAsync(async (req,res)=>{
     let {_id} = req.params;
     let allList = await Listing.findById(_id);
     console.log(allList);
@@ -120,7 +120,7 @@ app.get("/listings/:_id",async (req,res)=>{
     // res.send(listInfo);
     // res.redirect("/listings");
 
-});
+}));
 
 app.use((req,res,next)=>{
     next(new expressError(404,"Page Not Found"))
