@@ -12,6 +12,7 @@ const ejsMate = require("ejs-mate");
 app.use(express.static(path.join(__dirname, "public")));
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
+const listingSchema = require("./schema.js");
 
 
 
@@ -45,19 +46,22 @@ app.get("/",(req,res)=>{
 //         price: 73400,
 //         location:"Coimbatore"
 //     });
-
-
-
 //     await sampleListing.save().then((res)=>{
 //         console.log(res);
 //     }).then((err)=>{
 //         console.log(err);
 //     });
-
-
-
-
 // })
+
+const validateSchema=(req,res,next)=>{
+    let { error } = listingSchema.validate(req.body);
+    if (error) {
+        throw new expressError(400, error.message);
+    } else{
+        next();
+    }
+};
+
 
 app.get("/listings", wrapAsync(async (req,res)=>{
    let allList = await Listing.find({})
@@ -71,20 +75,13 @@ app.get("/listings/new",(req,res)=>{
     // console.log("CREATE GET is working !");
 });
 
-app.post("/listings/new", wrapAsync( async (req,res,next)=>{
-    let{newTitle,newDescription,newUrl,newPrice,newLocation,newCountry} = req.body;
-   await Listing.create({
-        title:newTitle,
-        description:newDescription,
-        image:{url:newUrl},
-        price:newPrice,
-        location:newLocation,
-        country:newCountry
-    });
+app.post("/listings/new", validateSchema,wrapAsync( async (req,res,next)=>{
 
-    res.redirect("/listings");
-
-    // res.send("POST is WORKING FOR new LISTING!!!");
+    let newListing = new Listing(req.body.listing);
+    
+    await newListing.save();
+        res.redirect("/listings");
+ // res.send("POST is WORKING FOR new LISTING!!!");
 }));
 
 app.get("/listings/:_id/edit", wrapAsync(async (req,res)=>{
@@ -94,9 +91,9 @@ app.get("/listings/:_id/edit", wrapAsync(async (req,res)=>{
     // res.send("GET is WORKING, Go for EJS !!");
 }));
 
-app.put("/listings/:_id/edit", wrapAsync(async(req,res)=>{
+app.put("/listings/:_id/edit",validateSchema, wrapAsync(async(req,res)=>{
     let{_id} = req.params;
-        const newInfo =req.body.edit;
+        const newInfo =req.body.listing;
         console.log(newInfo);
         await Listing.findByIdAndUpdate(_id,newInfo);
     res.redirect("/listings");
@@ -128,7 +125,7 @@ app.use((req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     let{statusCode=500,message} = err;
-    res.status(statusCode).send(message);
+    res.status(statusCode).render("error.ejs",{err});
 });
 
 
