@@ -129,6 +129,15 @@ app.get("/listings/:_id", wrapAsync(async (req,res)=>{
 
 }));
 
+app.delete("/listings/:_id/reviews/:reviewId/delete",wrapAsync(async(req,res,next)=>{
+    let{_id,reviewId} = req.params;
+    await Listing.findByIdAndUpdate(_id,{$pull:{reviews:reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/listings/${_id}`);
+
+}));
+
 app.use((req,res,next)=>{
     next(new expressError(404,"Page Not Found"))
 })
