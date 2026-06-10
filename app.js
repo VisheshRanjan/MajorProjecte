@@ -115,13 +115,13 @@ app.post("/listings/:_id/reviews",validateReview,wrapAsync(async (req,res)=>{
 
     await newReview.save();
     await listing.save();
-    console.log("SAved");
-    res.send("GOOD");
+    // console.log("SAved");
+    res.redirect("/listings");
 }));
 
 app.get("/listings/:_id", wrapAsync(async (req,res)=>{
     let {_id} = req.params;
-    let allList = await Listing.findById(_id);
+    let allList = await Listing.findById(_id).populate("reviews");
     console.log(allList);
     res.render("../views/listings/show.ejs",{allList});
     // res.send(listInfo);
