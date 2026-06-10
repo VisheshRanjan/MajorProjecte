@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing");
+const Listing = require("./models/listing.js");
 const path = require("path");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -12,7 +12,9 @@ const ejsMate = require("ejs-mate");
 app.use(express.static(path.join(__dirname, "public")));
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
-const listingSchema = require("./schema.js");
+const {listingSchema,reviewSchema} = require("./schema.js");
+const Review = require("./models/review.js");
+
 
 
 
@@ -39,19 +41,6 @@ app.get("/",(req,res)=>{
     res.send("Root is working !");
 });
 
-// app.get("/testListing",async (req,res)=>{
-//     let sampleListing = new Listing({
-//         title:"Cilian Villa",
-//         description:"BEside the Beach ",
-//         price: 73400,
-//         location:"Coimbatore"
-//     });
-//     await sampleListing.save().then((res)=>{
-//         console.log(res);
-//     }).then((err)=>{
-//         console.log(err);
-//     });
-// })
 
 const validateSchema=(req,res,next)=>{
     let { error } = listingSchema.validate(req.body);
@@ -62,6 +51,14 @@ const validateSchema=(req,res,next)=>{
     }
 };
 
+const validateReview=(req,res,next)=>{
+    let { error } = reviewSchema.validate(req.body);
+    if (error) {
+        throw new expressError(400, error.message);
+    } else{
+        next();
+    }
+};
 
 app.get("/listings", wrapAsync(async (req,res)=>{
    let allList = await Listing.find({})
@@ -75,7 +72,7 @@ app.get("/listings/new",(req,res)=>{
     // console.log("CREATE GET is working !");
 });
 
-app.post("/listings/new", validateSchema,wrapAsync( async (req,res,next)=>{
+app.post("/listings/new", validateSchema, wrapAsync( async (req,res,next)=>{
 
     let newListing = new Listing(req.body.listing);
     
@@ -107,6 +104,19 @@ app.post("/listings/:_id/delete", wrapAsync(async (req,res)=>{
     console.log(delUser);
 
     res.redirect("/listings");
+}));
+
+app.post("/listings/:_id/reviews",validateReview,wrapAsync(async (req,res)=>{
+        let {_id} = req.params;
+    let listing = await Listing.findById(_id);
+    let newReview = new Review(req.body.review);
+
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+    console.log("SAved");
+    res.send("GOOD");
 }));
 
 app.get("/listings/:_id", wrapAsync(async (req,res)=>{

@@ -3,42 +3,54 @@
 <div class="row">
     <div class="col-10 ">
 
-<h1>Listing Details :</h1>
-
+<h2><%= allList?.title %></h2> 
 <div class="card col-8">
      <% if (allList?.image?.url) { %>
         <img src="<%= allList.image.url %>" class="card-img-top show-img" width="400">
     <% } %>
 <div class="card-body ">
-<h2><%= allList?.title %></h2> <br>
+<br>
 <%= allList?.description %>  <br>
 <%= allList?.location %>  <br>
 <%= allList?.country %>  <br>
 <%= allList?.price.toLocaleString("en-IN")%>  <br>
 </div>    
 
-</div>
-<body>
+<div class="btn-show">
 
-    <div class="btn-show">
-        
-            <form method="post" action="/listings/<%=allList._id%>/delete">
-        <button class="btn btn-dark ">Delete</button>
+        <form method="post" action="/listings/<%=allList._id%>/delete">
+    <button class="btn btn-dark ">Delete</button>
+</form>
+<br>
+    <form method="get" action="/listings/<%=allList._id%>/edit">
+    <button class="btn btn-dark btn edit-btn">Edit</button>
     </form>
-    <br>
-        <form method="get" action="/listings/<%=allList._id%>/edit">
-        <button class="btn btn-dark btn edit-btn">Edit</button>
-        </form>
+    <hr>
 
-
-    
+    <div class="div mb-3 mt-3">
+        <h4>Write Your review Here!</h4>
+                <div class="div mb-3 mt-3">
+    <form action="/listings/<%=allList._id%>/reviews" method="post" class="needs-validation" novalidate >
+            <label for="rating" class="form-label">Rating</label>
+            <input type="range" class="form-range" min="1" max="5" name="review[rating]">
+        <div class="mb-3 mt-3">
+            <label for="comment" class="form-label">Comments</label>
+            <textarea name="review[comment]"
+            class="form-control"
+            cols="30"
+            rows="5"
+            required 
+            ></textarea>
+            <div class="invalid-feedback">Please add some comments for your review.</div>
+        </div>
+        <div class="div mb-3 mt-3">
+<button type="submit" class="btn btn-outline-dark ">Submit</button>
+        </div>
+    </form>
+        </div>
 
     </div>
 
-    
 
 
-
-</body>
- </div>
 </div>

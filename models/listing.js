@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ref } = require("../schema");
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
@@ -25,8 +26,15 @@ const listingSchema = new Schema({
         type:String,
 
     },
-    country:String
-});
+    country:{ type:String
+}, 
+	reviews: [
+            {
+                type:Schema.Types.ObjectId,
+                ref:"Review"
+            }
+        ]
+	});
 
 const Listing = mongoose.model("Listing",listingSchema);
 module.exports = Listing;
