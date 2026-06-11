@@ -1,0 +1,71 @@
+const express = require("express");
+const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync.js");
+const expressError = require("../utils/expressError.js");
+const {listingSchema,reviewSchema} = require("../schema.js");
+const Listing = require("../models/listing.js");
+
+
+
+
+
+const validateSchema=(req,res,next)=>{
+    let { error } = listingSchema.validate(req.body);
+    if (error) {
+        throw new expressError(400, error.message);
+    } else{
+        next();
+    }
+};
+
+
+router.get("/", wrapAsync(async (req,res)=>{
+    let allList = await Listing.find({})
+    res.render("../views/listings/index.ejs",{allList});
+
+}));
+
+router.get("/new",(req,res)=>{
+    res.render("newListing.ejs");
+});
+
+router.post("/new", validateSchema, wrapAsync( async (req,res,next)=>{
+
+    let newListing = new Listing(req.body.listing);
+    
+    await newListing.save();
+        res.redirect("/listings");
+}));
+router.get("/:_id", wrapAsync(async (req,res)=>{
+    let {_id} = req.params;
+    let allList = await Listing.findById(_id).populate("reviews");
+    console.log(allList);
+    res.render("../views/listings/show.ejs",{allList});
+   
+}));
+
+router.get("/:_id/edit", wrapAsync(async (req,res)=>{
+    let{_id} = req.params;
+    let user = await Listing.findById(_id);
+    res.render("edit.ejs",{user});
+}));
+
+router.put("/:_id/edit",validateSchema, wrapAsync(async(req,res)=>{
+    let{_id} = req.params;
+        const newInfo =req.body.listing;
+        console.log(newInfo);
+        await Listing.findByIdAndUpdate(_id,newInfo);
+    res.redirect("/listings");
+
+}));
+
+router.post("/:_id/delete", wrapAsync(async (req,res)=>{
+    let{_id} =req.params;
+    let delUser = await Listing.findByIdAndDelete(_id);
+    
+    console.log(delUser);
+
+    res.redirect("/listings");
+}));
+
+module.exports= router;
