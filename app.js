@@ -14,8 +14,34 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const {listingSchema,reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+
+
+const session = require("express-session");
+const flash = require("connect-flash");
+
+const sessionOption = {
+    secret:"mySuperSecret",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+        expires:Date.now()+7*24*60*60*1000,
+        maxAge:7*24*60*60*1000,
+        httpOnly:true
+    },
+};
+
+app.use(session(sessionOption));
+app.use(flash());
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    next();
+});
+
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
 
 
 app.engine("ejs", ejsMate);
@@ -36,9 +62,10 @@ async function main(){
 app.listen(8080,(req,res)=>{
     console.log("App is Listening");
 });
-app.use("/listings",listings);
+app.use("/listings",listingsRouter);
 
-app.use("/listings/:_id/reviews",reviews);
+app.use("/listings/:_id/reviews",reviewsRouter);
+app.use("/",userRouter);
 
 
 

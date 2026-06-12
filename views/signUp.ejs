@@ -1,0 +1,44 @@
+<% layout("layouts/boilerplate.ejs"); %>
+            
+            <div class="mb-3">
+                <form action="/singUp" method="post" novalidate class="needs-validation">
+                        <label class="form-label">Usernme</label>
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter Your Username"
+                            required
+                        >
+                        <div class="invalid-feedback">Please write Title again!</div>
+                        <div class="valid-feedback">Looks Good!</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="Enter Your email"
+                            required
+                        >
+                        <div class="valid-feedback"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Passport</label>
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter Your Pass"
+                            required
+                        >
+                        <div class="invalid-feedback">Please write Strong Pass!</div>
+                        <div class="valid-feedback"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Sign Up</button>
+                    </form>
+                </div>

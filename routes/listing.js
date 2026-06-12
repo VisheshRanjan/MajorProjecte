@@ -26,7 +26,7 @@ router.get("/", wrapAsync(async (req,res)=>{
 }));
 
 router.get("/new",(req,res)=>{
-    res.render("newListing.ejs");
+    res.render("newListing.ejs",{success:"Saved Here!"});
 });
 
 router.post("/new", validateSchema, wrapAsync( async (req,res,next)=>{
@@ -34,12 +34,14 @@ router.post("/new", validateSchema, wrapAsync( async (req,res,next)=>{
     let newListing = new Listing(req.body.listing);
     
     await newListing.save();
+            req.flash("success","NEW LISTING CREATED!");
         res.redirect("/listings");
 }));
 router.get("/:_id", wrapAsync(async (req,res)=>{
     let {_id} = req.params;
     let allList = await Listing.findById(_id).populate("reviews");
     console.log(allList);
+                    req.flash("success","LISTING FOUND!");
     res.render("../views/listings/show.ejs",{allList});
    
 }));
@@ -55,6 +57,7 @@ router.put("/:_id/edit",validateSchema, wrapAsync(async(req,res)=>{
         const newInfo =req.body.listing;
         console.log(newInfo);
         await Listing.findByIdAndUpdate(_id,newInfo);
+                        req.flash("success","LISTING EDITED!");
     res.redirect("/listings");
 
 }));
@@ -64,7 +67,7 @@ router.post("/:_id/delete", wrapAsync(async (req,res)=>{
     let delUser = await Listing.findByIdAndDelete(_id);
     
     console.log(delUser);
-
+                req.flash("success","LISTING DELETED!");
     res.redirect("/listings");
 }));
 
