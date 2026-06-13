@@ -3,7 +3,6 @@ const router = express.Router({mergeParams:true});
 const User = require("../models/user.js");
 const passport = require("passport");
 
-
 router.get("/signUp",(req,res)=>{
     res.render("../views/signUp.ejs");
 });
