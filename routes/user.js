@@ -4,7 +4,7 @@ const User = require("../models/user.js");
 const passport = require("passport");
 
 router.get("/signUp",(req,res)=>{
-    res.render("../views/signUp.ejs");
+    res.render("../views/users/signUp.ejs");
 });
 
 router.post("/signUp",async(req,res)=>{
@@ -18,6 +18,30 @@ router.post("/signUp",async(req,res)=>{
         console.error(e);
         res.redirect("/signUp");
     }
+});
+
+router.get("/login",(req,res)=>{
+    res.render("../views/users/login.ejs");
+});
+
+router.post("/login",passport.authenticate("local",{failureFlash:true,failureRedirect:"/login"}),(req,res)=>{
+    try{
+        req.flash("success","You're Logged in ..");
+req.session.success = "Welcome to Wanderlust";
+res.redirect("/listings");
+    }catch(error){
+                console.log("The prob is :");
+
+        console.log(error);
+    };
+
+});
+
+router.get('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect("listings");
+  });
 });
 
 module.exports= router;

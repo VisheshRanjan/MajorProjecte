@@ -14,6 +14,7 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const {listingSchema,reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
+const isLogin = require("./middleware.js");
 
 
 const session = require("express-session");
@@ -31,7 +32,6 @@ const sessionOption = {
 };
 
 app.use(session(sessionOption));
-app.use(flash());
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -43,8 +43,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(flash());
+
 app.use((req,res,next)=>{
-    res.locals.success=req.flash("success");
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
     next();
 });
 

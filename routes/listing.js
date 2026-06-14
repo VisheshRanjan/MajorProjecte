@@ -4,6 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const {listingSchema,reviewSchema} = require("../schema.js");
 const Listing = require("../models/listing.js");
+const {isLogin} = require("../middleware.js");
 
 
 
@@ -25,11 +26,12 @@ router.get("/", wrapAsync(async (req,res)=>{
 
 }));
 
-router.get("/new",(req,res)=>{
+router.get("/new",isLogin,(req,res)=>{
+
     res.render("newListing.ejs",{success:"Saved Here!"});
 });
 
-router.post("/new", validateSchema, wrapAsync( async (req,res,next)=>{
+router.post("/new",isLogin, validateSchema, wrapAsync( async (req,res,next)=>{
 
     let newListing = new Listing(req.body.listing);
     
@@ -46,7 +48,7 @@ router.get("/:_id", wrapAsync(async (req,res)=>{
    
 }));
 
-router.get("/:_id/edit", wrapAsync(async (req,res)=>{
+router.get("/:_id/edit",isLogin, wrapAsync(async (req,res)=>{
     let{_id} = req.params;
     let user = await Listing.findById(_id);
     res.render("edit.ejs",{user});
@@ -62,7 +64,7 @@ router.put("/:_id/edit",validateSchema, wrapAsync(async(req,res)=>{
 
 }));
 
-router.post("/:_id/delete", wrapAsync(async (req,res)=>{
+router.post("/:_id/delete",isLogin, wrapAsync(async (req,res)=>{
     let{_id} =req.params;
     let delUser = await Listing.findByIdAndDelete(_id);
     
